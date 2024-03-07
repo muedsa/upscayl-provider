@@ -34,7 +34,7 @@ fun Application.configureRouting() {
         }
 
         authenticate("auth-bearer") {
-            get("/updateImageHash") {
+            post("/updateImageHash") {
                 try {
                     val req = call.receive<ImageUrlAlias>()
                     val upscaylImage = service.updateUrlAlias(req)
