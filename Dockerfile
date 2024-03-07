@@ -1,5 +1,4 @@
 FROM gradle:8.6.0-jdk11 AS build
-COPY --chown=gradle:gradle . /home/gradle/upscayl-provider
 WORKDIR /home/gradle
 RUN git clone https://github.com/muedsa/upscayl-provider && \
     cd upscayl-provider && \
