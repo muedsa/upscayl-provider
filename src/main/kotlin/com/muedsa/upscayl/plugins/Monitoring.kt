@@ -14,17 +14,17 @@ import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import org.slf4j.event.*
+import java.util.*
 
 fun Application.configureMonitoring() {
     install(CallLogging) {
         level = Level.INFO
-        filter { call -> call.request.path().startsWith("/") }
-        callIdMdc("call-id")
+        callIdMdc("traceId")
     }
     install(CallId) {
         header(HttpHeaders.XRequestId)
-        verify { callId: String ->
-            callId.isNotEmpty()
+        generate {
+            UUID.randomUUID().toString()
         }
     }
 

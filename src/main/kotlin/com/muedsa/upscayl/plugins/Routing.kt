@@ -7,10 +7,12 @@ import com.muedsa.upscayl.service.UpscaylImageService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.plugins.callid.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.get
+import java.util.UUID
 
 fun Application.configureRouting() {
 
@@ -24,7 +26,7 @@ fun Application.configureRouting() {
                 check(!url.isNullOrEmpty()) { "Invalid URL" }
                 check(url.length < 500) { "URL too long" }
                 url.checkAsUrl()
-                val proxyUrl = service.getUpscaylImage(url)
+                val proxyUrl = service.getUpscaylImage(url = url, traceId = call.callId ?: UUID.randomUUID().toString())
                 call.respondRedirect(proxyUrl)
             } catch (t: Throwable) {
                 call.respondText(t.message ?: "", status = HttpStatusCode.BadRequest)

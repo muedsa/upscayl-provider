@@ -23,7 +23,7 @@ class UpscaylImageService(
     private val database: Database
 ) {
 
-    suspend fun getUpscaylImage(url: String): String {
+    suspend fun getUpscaylImage(url: String, traceId: String): String {
         val imageUrlAlias = imageUrlAliasDAO.getByUrl(url)
         if (imageUrlAlias != null) {
             val index = upscaylImageIndexDAO.getByHash(imageUrlAlias.hash)
@@ -33,7 +33,7 @@ class UpscaylImageService(
                 val nx = redisService.setNx("UPSCAYL_TASK_LOCK:$url", url, 60 * 60 * 5)
                 if (nx) {
                     val params = NetworkImageUpscaylParams(
-                        guid = UUID.randomUUID().toString(),
+                        guid = traceId,
                         url = url
                     )
                     redisService.publish("NETWORK_IMAGE_UPSCAYL", Json.Default.encodeToString(params))
