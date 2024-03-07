@@ -11,4 +11,5 @@ RUN ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
     mkdir /app
 COPY --from=build /home/gradle/upscayl-provider/build/libs/*.jar /app/upscayl-provider-all.jar
+WORKDIR /app
 ENTRYPOINT ["java","-jar","/app/upscayl-provider-all.jar"]
