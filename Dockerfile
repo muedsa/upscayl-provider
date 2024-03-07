@@ -1,8 +1,7 @@
 FROM gradle:8.6.0-jdk11 AS build
-WORKDIR /home/gradle
-RUN git clone https://github.com/muedsa/upscayl-provider && \
-    cd upscayl-provider && \
-    gradle buildFatJar --no-daemon
+COPY --chown=gradle:gradle . /home/gradle/upscayl-provider
+WORKDIR /home/gradle/upscayl-provider
+RUN gradle buildFatJar --no-daemon
 
 FROM openjdk:11
 ENV TZ=Asia/Shanghai
