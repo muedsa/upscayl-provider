@@ -11,6 +11,8 @@ lettuce = "6.3.1.RELEASE"
 exposed = "0.48.0"
 postgresql = "42.7.2"
 hikaricp = "5.1.0"
+loki4j = "1.4.2"
+http-client = "4.5.14"
 
 [libraries]
 kotlin-test =  { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -36,6 +38,8 @@ koin-test =  { module = "io.insert-koin:koin-test" }
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+loki4j = { module = "com.github.loki4j:loki-logback-appender", version.ref = "loki4j" }
+http-client = { module = "org.apache.httpcomponents:httpclient", version.ref = "http-client" }
 
 [plugins]
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

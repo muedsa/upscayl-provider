@@ -47,6 +47,9 @@ dependencies {
     implementation(platform("io.insert-koin:koin-bom:$koinBomVersion"))
     implementation("io.insert-koin:koin-ktor")
     implementation("io.insert-koin:koin-logger-slf4j")
+
+    implementation(libs.loki4j)
+    implementation(libs.http.client)
 }
 
 java {
