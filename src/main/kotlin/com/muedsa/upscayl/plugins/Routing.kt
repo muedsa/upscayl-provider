@@ -26,7 +26,7 @@ fun Application.configureRouting() {
                 check(!url.isNullOrEmpty()) { "Invalid URL" }
                 check(url.length < 500) { "URL too long" }
                 url.checkAsUrl()
-                val model = call.parameters["model"] ?: "realesrgan-x4plus"
+                val model = call.parameters["model"] ?: "realesrgan-x4plus-anime"
                 val proxyUrl = service.getUpscaylImage(url = url, model = model, traceId = call.callId ?: UUID.randomUUID().toString())
                 call.respondRedirect(proxyUrl)
             } catch (t: Throwable) {
