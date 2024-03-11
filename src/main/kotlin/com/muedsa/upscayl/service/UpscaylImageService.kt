@@ -13,7 +13,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.util.UUID
 
 class UpscaylImageService(
     private val redisService: RedisService,
@@ -52,7 +51,12 @@ class UpscaylImageService(
 
     suspend fun saveUpscaylImage(provideUpscaylImage: ProvideUpscaylImage) {
         newSuspendedTransaction(Dispatchers.IO, db = database) {
-            upscaylImageIndexDAO.insertIgnore(provideUpscaylImage.sourceHash, provideUpscaylImage.upscaylUrl)
+            upscaylImageIndexDAO.insertIgnore(
+                hash = provideUpscaylImage.sourceHash,
+                url = provideUpscaylImage.upscaylUrl,
+                scale = provideUpscaylImage.scale,
+                model = provideUpscaylImage.model
+            )
             imageUrlAliasDAO.insertIgnore(provideUpscaylImage.sourceUrl, provideUpscaylImage.sourceHash)
             if (provideUpscaylImage.taskResult != null) {
                 upscaylTaskLogDAO.insertIgnore(provideUpscaylImage)

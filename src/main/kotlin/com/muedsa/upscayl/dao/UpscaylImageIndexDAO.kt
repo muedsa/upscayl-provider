@@ -11,6 +11,8 @@ class UpscaylImageIndexDAO(private val database: Database) {
         val id = integer("id").autoIncrement()
         val hash = varchar("hash", length = 64).index(isUnique = true) // sha-256
         val url = varchar("url", length = 512).index()
+        val scale = integer("scale")
+        val model = varchar("model", length = 64)
 
         override val primaryKey = PrimaryKey(id)
     }
@@ -37,9 +39,11 @@ class UpscaylImageIndexDAO(private val database: Database) {
         }
     }
 
-    fun insertIgnore(hash: String, url: String): Int = UpscaylImageIndexTable.insertIgnore {
+    fun insertIgnore(hash: String, url: String, scale: Int, model: String): Int = UpscaylImageIndexTable.insertIgnore {
         it[UpscaylImageIndexTable.hash] = hash
         it[UpscaylImageIndexTable.url] = url
+        it[UpscaylImageIndexTable.scale] = scale
+        it[UpscaylImageIndexTable.model] = model
     }.insertedCount
 
 }

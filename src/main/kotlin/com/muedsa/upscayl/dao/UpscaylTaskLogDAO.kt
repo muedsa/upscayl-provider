@@ -12,11 +12,13 @@ class UpscaylTaskLogDAO(private val database: Database) {
         val id = integer("id").autoIncrement()
         val sourceUrl = varchar("source_url", length = 512)
         val upscaylUrl = varchar("upscayl_url", length = 512)
-        val traceId = varchar("trace_id", length = 128).nullable()
+        val scale = integer("scale")
+        val model = varchar("model", length = 64)
         val exitCode = integer("exit_code")
         val message = text("message")
         val startTime = long("start_time").nullable()
         val endTime = long("end_time").nullable()
+        val traceId = varchar("trace_id", length = 128).nullable()
 
         override val primaryKey = PrimaryKey(id)
     }
@@ -33,11 +35,13 @@ class UpscaylTaskLogDAO(private val database: Database) {
     fun insertIgnore(provideUpscaylImage: ProvideUpscaylImage): Int =  UpscaylTaskLogTable.insertIgnore {
         it[sourceUrl] = provideUpscaylImage.sourceUrl
         it[upscaylUrl] = provideUpscaylImage.upscaylUrl
-        it[traceId] = provideUpscaylImage.traceId
+        it[scale] = provideUpscaylImage.scale
+        it[model] = provideUpscaylImage.model
         it[exitCode] = provideUpscaylImage.taskResult?.exitCode ?: -1
         it[message] = provideUpscaylImage.taskResult?.message ?: ""
         it[startTime] = provideUpscaylImage.taskResult?.startTime
         it[endTime] = provideUpscaylImage.taskResult?.endTime
+        it[traceId] = provideUpscaylImage.traceId
     }.insertedCount
 
 }

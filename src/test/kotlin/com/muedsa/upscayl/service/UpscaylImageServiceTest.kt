@@ -1,7 +1,6 @@
 package com.muedsa.upscayl.service
 
 import com.muedsa.upscayl.model.ProvideUpscaylImage
-import com.muedsa.upscayl.module
 import io.ktor.server.testing.*
 import io.ktor.test.dispatcher.*
 import org.koin.ktor.ext.get
@@ -19,6 +18,8 @@ class UpscaylImageServiceTest {
                     "https://samples-files.com/samples/Images/jpg/3840-2160-sample.jpg",
                     "hash-123",
                     "https://samples-files.com/samples/Images/jpg/3840-2160-sample.jpg",
+                    4,
+                    "realesrgan-x4plus-anime",
                     "trace-id-123"
                 )
                 service.saveUpscaylImage(provideUpscaylImage)

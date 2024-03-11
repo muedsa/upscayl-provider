@@ -12,6 +12,7 @@ exposed = "0.48.0"
 postgresql = "42.7.2"
 hikaricp = "5.1.0"
 loki4j = "1.4.2"
+janino = "3.1.8"
 http-client = "4.5.14"
 
 [libraries]
@@ -39,6 +40,7 @@ exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "e
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 loki4j = { module = "com.github.loki4j:loki-logback-appender", version.ref = "loki4j" }
+janino = { module = "org.codehaus.janino:janino", version.ref = "janino" }
 http-client = { module = "org.apache.httpcomponents:httpclient", version.ref = "http-client" }
 
 [plugins]

@@ -12,7 +12,7 @@ version = "0.0.1"
 application {
     mainClass.set("com.muedsa.upscayl.ApplicationKt")
 
-    val isDevelopment: Boolean = project.ext.has("development")
+    val isDevelopment: Boolean = project.ext.has("KTOR_PROFILE") &&  project.ext.get("KTOR_PROFILE") == "dev"
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
@@ -49,6 +49,7 @@ dependencies {
     implementation("io.insert-koin:koin-logger-slf4j")
 
     implementation(libs.loki4j)
+    implementation(libs.janino)
     implementation(libs.http.client)
 }
 
