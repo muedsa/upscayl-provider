@@ -5,31 +5,37 @@
         </encoder>
     </appender>
     <if condition='property("KTOR_PROFILE").contains("prod")'>
-        <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
-            <http class="com.github.loki4j.logback.ApacheHttpSender">
-                <url>${LOKI_HOST}/loki/api/v1/push</url>
-                <auth>
-                    <username>${LOKI_HTTP_AUTH_NAME}</username>
-                    <password>${LOKI_HTTP_AUTH_PASSWORD}</password>
-                </auth>
-            </http>
-            <format>
-                <label>
-                    <pattern>app=upscayl-provider,host=${HOSTNAME},level=%level,trace=%mdc{traceId:-NONE}</pattern>
-                </label>
-                <message>
-                    <pattern>l=%level h=${HOSTNAME} c=%logger{20} t=%thread i=%X{traceId:-NONE} | %msg %ex</pattern>
-                </message>
-                <sortByTime>true</sortByTime>
-            </format>
-        </appender>
+        <then>
+            <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+                <http class="com.github.loki4j.logback.ApacheHttpSender">
+                    <url>${LOKI_HOST}/loki/api/v1/push</url>
+                    <auth>
+                        <username>${LOKI_HTTP_AUTH_NAME}</username>
+                        <password>${LOKI_HTTP_AUTH_PASSWORD}</password>
+                    </auth>
+                </http>
+                <format>
+                    <label>
+                        <pattern>app=upscayl-provider,host=${HOSTNAME},level=%level,trace=%mdc{traceId:-NONE}</pattern>
+                    </label>
+                    <message>
+                        <pattern>l=%level h=${HOSTNAME} c=%logger{20} t=%thread i=%X{traceId:-NONE} | %msg %ex</pattern>
+                    </message>
+                    <sortByTime>true</sortByTime>
+                </format>
+            </appender>
+        </then>
     </if>
     <root level="${KTOR_LOG_LEVEL}">
         <appender-ref ref="STDOUT"/>
-        <if condition='property("KTOR_PROFILE").contains("prod")'>
-            <appender-ref ref="LOKI"/>
-        </if>
     </root>
+    <if condition='property("KTOR_PROFILE").contains("prod")'>
+        <then>
+            <root>
+                <appender-ref ref="LOKI"/>
+            </root>
+        </then>
+    </if>
     <logger name="org.eclipse.jetty" level="INFO"/>
     <logger name="io.netty" level="INFO"/>
 </configuration>
