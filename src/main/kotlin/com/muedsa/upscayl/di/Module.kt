@@ -21,14 +21,17 @@ val storageModule = module {
     singleOf(::RedisService)
     single {
         val config = get<DatabaseConfig>()
-        Database.connect(HikariDataSource(HikariConfig().apply {
+        HikariDataSource(HikariConfig().apply {
             driverClassName = config.driver
             jdbcUrl = config.jdbcUrl
             username = config.username
             password = config.password
             maximumPoolSize = 3
             validate()
-        })).also {
+        })
+    }
+    single {
+        Database.connect(get<HikariDataSource>()).also {
             KoinShutdownDispatcher.register {
                 it.close()
             }
