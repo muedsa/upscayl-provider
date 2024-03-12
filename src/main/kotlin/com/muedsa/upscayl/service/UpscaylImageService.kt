@@ -44,8 +44,12 @@ class UpscaylImageService(
     }
 
     suspend fun updateUrlAlias(imageUrlAlias: ImageUrlAlias): UpscaylImageIndex? {
-        return upscaylImageIndexDAO.getByHash(imageUrlAlias.hash)?.also {
-            imageUrlAliasDAO.insertIgnore(imageUrlAlias.url, it.hash)
+        return newSuspendedTransaction(Dispatchers.IO, db = database) {
+            val index = upscaylImageIndexDAO.getByHash(imageUrlAlias.hash)
+            if (index != null) {
+                imageUrlAliasDAO.insertIgnore(imageUrlAlias.url, index.hash)
+            }
+            return@newSuspendedTransaction index
         }
     }
 
